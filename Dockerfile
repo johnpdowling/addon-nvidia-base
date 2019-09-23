@@ -1,8 +1,6 @@
-#FROM nvcr.io/nvidia/l4t-base:r32.2
-FROM cuda-jetpack:4.2.1-devel
+FROM nvcr.io/nvidia/l4t-base:r32.2
 
-#ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
-ARG BUILD_FROM=cuda-jetpack:4.2.1-devel
+ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
 # hadolint ignore=DL3006
 
 
