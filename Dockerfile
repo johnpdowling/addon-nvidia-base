@@ -68,7 +68,7 @@ RUN S6_ARCH="${BUILD_ARCH}" \
 WORKDIR /
 RUN \
     apt-get install -y --fix-missing --no-install-recommends \
-        make \
+        build-essential \
         g++ \
         python3-pip \
         libhdf5-serial-dev \
