@@ -7,8 +7,6 @@ ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
 #COPY qemu-arm-static /usr/bin
 COPY qemu-* /usr/bin/
 
-RUN ls /usr/bin/qemu-*
-
 # Environment variables
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
@@ -26,6 +24,8 @@ ARG BUILD_ARCH=aarch64
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN ls /usr/bin/qemu-*
 
 # Install base hassio system
 RUN \
