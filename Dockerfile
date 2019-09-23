@@ -4,7 +4,7 @@ ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
 # hadolint ignore=DL3006
 
 #COPY qemu-arm-static /usr/bin
-COPY qemu-aarch64-static /usr/bin
+#COPY qemu-aarch64-static /usr/bin
 
 # Environment variables
 ENV \
