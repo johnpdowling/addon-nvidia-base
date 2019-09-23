@@ -30,7 +30,7 @@ RUN ls /usr/bin/qemu-*
 # Install base hassio system
 RUN \
     apt-get update && \
-    apt-get install -y --no-cache --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
         jq \
@@ -67,7 +67,7 @@ RUN S6_ARCH="${BUILD_ARCH}" \
 #build nvidia environment
 WORKDIR /
 RUN \
-    apt-get install -y --no-cache --fix-missing --no-install-recommends \
+    apt-get install -y --fix-missing --no-install-recommends \
         build-essential \
         g++ \
         python3-pip \
