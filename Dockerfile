@@ -1,7 +1,10 @@
-FROM nvcr.io/nvidia/l4t-base:r32.2
+#FROM nvcr.io/nvidia/l4t-base:r32.2
+FROM cuda-jetpack:4.2.1-devel
 
-ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
+#ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
+ARG BUILD_FROM=cuda-jetpack:4.2.1-devel
 # hadolint ignore=DL3006
+
 
 #COPY qemu-arm-static /usr/bin
 COPY qemu-* /usr/bin/
