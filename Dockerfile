@@ -1,9 +1,10 @@
-FROM armhf/debian:stretch-slim
+FROM nvcr.io/nvidia/l4t-base:r32.2
 
-ARG BUILD_FROM=armhf/debian:stretch-slim
+ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2
 # hadolint ignore=DL3006
 
-COPY qemu-arm-static /usr/bin
+#COPY qemu-arm-static /usr/bin
+COPY qemu-aarch64-static /usr/bin
 
 # Environment variables
 ENV \
@@ -18,12 +19,12 @@ ENV \
 # Copy root filesystem
 COPY rootfs /
 
-ARG BUILD_ARCH=armhf
+ARG BUILD_ARCH=aarch64
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install base system
+# Install base hassio system
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -60,6 +61,19 @@ RUN S6_ARCH="${BUILD_ARCH}" \
         /var/{cache,log}/* \
         /var/lib/apt/lists/*
 
+#build nvidia environment
+WORKDIR /
+RUN \
+    apt-get install -y --fix-missing --no-install-recommends \
+        make \
+        g++ \
+        python3-pip \
+        libhdf5-serial-dev \
+        hdf5-tools \
+        python3-h5py
+RUN pip3 install --pre --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu
+RUN pip3 install -U numpy
+
 # Entrypoint & CMD
 ENTRYPOINT [ "/init" ]
 
@@ -70,18 +84,18 @@ ARG BUILD_VERSION
 
 # Labels
 LABEL \
-    io.hass.name="Addon Raspi base for ${BUILD_ARCH}" \
-    io.hass.description="JPD Hass.io Add-ons: ${BUILD_ARCH} Pi base image" \
+    io.hass.name="Addon NVIDIA base for ${BUILD_ARCH}" \
+    io.hass.description="JPD Hass.io Add-ons: ${BUILD_ARCH} NVIDIA base image" \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="base" \
     io.hass.version=${BUILD_VERSION} \
     maintainer="John Dowling <john.patrick.dowling@gmail.com>" \
-    org.label-schema.description="JPD Hass.io Add-ons: ${BUILD_ARCH} Raspi base image" \
+    org.label-schema.description="JPD Hass.io Add-ons: ${BUILD_ARCH} NVIDIA base image" \
     org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.name="Addon Raspi base for ${BUILD_ARCH}" \
+    org.label-schema.name="Addon NVIDIA base for ${BUILD_ARCH}" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.url="https://addons.community" \
-    org.label-schema.usage="https://github.com/johnpdowling/addon-raspbian-base/blob/master/README.md" \
+    org.label-schema.usage="https://github.com/johnpdowling/addon-nvidia-base/blob/master/README.md" \
     org.label-schema.vcs-ref=${REF} \
-    org.label-schema.vcs-url="https://github.com/johnpdowling/addon-raspbian-base" \
+    org.label-schema.vcs-url="https://github.com/johnpdowling/addon-nvidia-base" \
     org.label-schema.vendor="John Dowling"
