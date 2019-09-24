@@ -1,8 +1,0 @@
-{
-    "image": "youdownwithjpd/nvidia-base-{arch}",
-    "squash": false,
-    "build_from": {
-        "aarch64": "arm64v8/ubuntu:bionic-20190718"
-    },
-    "args": {}
-}
