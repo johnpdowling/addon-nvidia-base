@@ -3,8 +3,6 @@ FROM nvcr.io/nvidia/l4t-base:r32.2.1
 ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2.1
 # hadolint ignore=DL3006
 
-
-#COPY qemu-arm-static /usr/bin
 COPY qemu-aarch64-static /usr/bin/
 
 # Environment variables
@@ -25,8 +23,6 @@ ARG BUILD_ARCH=aarch64
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN ls /usr/bin/qemu-*
-
 # Install base hassio system
 RUN \
     apt-get update && \
@@ -37,7 +33,7 @@ RUN \
         tzdata
 
 RUN \
-    curl -o /bin/yq https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_arm
+    curl -o /bin/yq https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_arm64
 
 RUN S6_ARCH="${BUILD_ARCH}" \
     && if [ "${BUILD_ARCH}" = "i386" ]; then S6_ARCH="x86"; fi \
@@ -57,12 +53,7 @@ RUN S6_ARCH="${BUILD_ARCH}" \
         --strip 1 -C /tmp/bashio \
     \
     && mv /tmp/bashio/lib /usr/lib/bashio \
-    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    \
-    && rm -fr \
-        /tmp/* 
-#        \ /var/{cache,log}/* 
-#        \ /var/lib/apt/lists/*
+    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio
 
 #build nvidia environment
 WORKDIR /
@@ -79,6 +70,12 @@ RUN \
         
 #RUN pip3 install --pre --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu
 #RUN pip3 install -U numpy
+
+RUN \
+    rm -fr \
+        /tmp/* \
+        /var/{cache,log}/* 
+        /var/lib/apt/lists/*
 
 # Entrypoint & CMD
 ENTRYPOINT [ "/init" ]
