@@ -74,7 +74,7 @@ RUN \
 RUN \
     rm -fr \
         /tmp/* \
-        /var/{cache,log}/* 
+        /var/{cache,log}/* \
         /var/lib/apt/lists/*
 
 # Entrypoint & CMD
