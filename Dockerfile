@@ -23,14 +23,23 @@ ARG BUILD_ARCH=aarch64
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install base hassio system
+# Install base hassio system reqs, nvidia environment reqs
 RUN \
     apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y --fix-missing --no-install-recommends --no-cache \
         ca-certificates \
         curl \
         jq \
-        tzdata
+        tzdata \
+        build-essential \
+        g++ \
+        libhdf5-dev \
+        libhdf5-serial-dev \
+        hdf5-tools \
+        python3-dev \
+        python3-pip \
+        python3-h5py \
+        python3-setuptools
 
 RUN \
     curl -o /bin/yq https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_arm64
@@ -56,27 +65,17 @@ RUN S6_ARCH="${BUILD_ARCH}" \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio
 
 #build nvidia environment
-WORKDIR /
-RUN \
-    apt-get install -y --fix-missing --no-install-recommends \
-        build-essential \
-        g++ \
-        libhdf5-dev \
-        libhdf5-serial-dev \
-        hdf5-tools \
-        python3-dev \
-        python3-pip \
-        python3-h5py \
-        python3-setuptools && \
-    rm -fr \
-        /tmp/* \
-        /var/{cache,log}/* \
-        /var/lib/apt/lists/*
-
 #RUN pip3 install --pre --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu
 #RUN pip3 install -U numpy
 RUN pip3 install -U --no-cache-dir pip
 
+# Cleanup
+WORKDIR /
+RUN \
+    rm -fr \
+        /tmp/* \
+        /var/{cache,log}/* \
+        /var/lib/apt/lists/*
 # Entrypoint & CMD
 ENTRYPOINT [ "/init" ]
 
