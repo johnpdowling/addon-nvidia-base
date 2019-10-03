@@ -67,16 +67,15 @@ RUN \
         python3-dev \
         python3-pip \
         python3-h5py \
-        python3-setuptools
-        
-#RUN pip3 install --pre --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu
-#RUN pip3 install -U numpy
-
-RUN \
+        python3-setuptools && \
     rm -fr \
         /tmp/* \
         /var/{cache,log}/* \
         /var/lib/apt/lists/*
+
+#RUN pip3 install --pre --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu
+#RUN pip3 install -U numpy
+RUN pip3 install -U --no-cache-dir pip
 
 # Entrypoint & CMD
 ENTRYPOINT [ "/init" ]
