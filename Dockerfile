@@ -61,6 +61,7 @@ RUN \
     apt-get install -y --fix-missing --no-install-recommends \
         build-essential \
         g++ \
+        libhdf5-dev \
         libhdf5-serial-dev \
         hdf5-tools \
         python3-dev \
