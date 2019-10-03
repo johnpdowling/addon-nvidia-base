@@ -26,7 +26,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Install base hassio system reqs, nvidia environment reqs
 RUN \
     apt-get update && \
-    apt-get install -y --fix-missing --no-install-recommends --no-cache \
+    apt-get install -y --fix-missing --no-install-recommends \
         ca-certificates \
         curl \
         jq \
