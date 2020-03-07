@@ -1,6 +1,5 @@
-FROM nvcr.io/nvidia/l4t-base:r32.2.1
-
-ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.2.1
+ARG BUILD_FROM=nvcr.io/nvidia/l4t-base:r32.3.1
+FROM ${BUILD_FROM}
 # hadolint ignore=DL3006
 
 COPY qemu-aarch64-static /usr/bin/
